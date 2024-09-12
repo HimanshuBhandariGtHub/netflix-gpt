@@ -1,0 +1,83 @@
+Header.js
+
+import React from 'react'
+
+const Header = () => {
+  return (
+    //absolute- to get logo over image bg, bg-gradient-to-b from-black -gradient to bottom from black color, z-10 over the bg over layer
+    <div className="absolute px-8 py-2 bg-gradient-to-b from-black z-10">
+        <img className="w-44" src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+        alt="logo" />
+    </div>
+  )
+}
+
+export default Header;
+
+
+Login.js
+
+import Header from './Header';
+import {useState} from 'react';
+
+const Login = () => {
+  const[isSignInForm, setIsSignInForm] = useState(true); //state var to toggle with default true
+
+  const toggleSignInForm=()=>{  //fucntion onclick, will toggle our state from true to false adn vice-versa
+      setIsSignInForm(!isSignInForm);
+  };
+
+  return (
+    <div>
+      <Header />
+      <div className="absolute"> //layers over each other
+        <img src="https://assets.nflxext.com/ffe/siteui/vlv3/85ff76db-39e5-423a-afbc-97d3e74db71b/null/IN-en-20240909-TRIFECTA-perspective_b22117e0-4610-4d57-a695-20f77d241a4a_large.jpg" alt="bg" />
+      </div>
+      <form className="w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80"> //over bg
+        //is true, get sign in and false get sign up
+        <h1 className="font-bold text-3xl py-4">{isSignInForm ? "Sign In" : "Sign Up"}</h1>
+        //sign in not true i.e false and add new input box for sign up- full name
+        {!isSignInForm && (<input type="text" placeholder="Full Name" className="p-4 my-4 w-full bg-gray-700" />)}
+        <input type="email" placeholder="Email" className="p-4 my-4 w-full bg-gray-700" />
+        <input type="password" placeholder="Password" className="p-4 my-4 w-full bg-gray-700" />
+        //true sign in, false sign up
+        <button className="p-4 my-6 bg-red-700 w-full rounded-lg">{isSignInForm?"Sign In":"Sign Up"}</button>
+        //onclick function and call our toggle function, true- mgs1, false-msg2
+        <p className="py-4 cursor-pointer" onClick={toggleSignInForm}>{isSignInForm ? "New to Netflix? Sign Up Now" :"Already Registered? Sign In Now"}</p>
+      </form>
+    </div>
+  )
+}
+
+export default Login;
+
+
+Body.js
+
+npm i -D react-router-dom
+
+
+import Login from './Login';
+import Browse from './Browse';
+import {createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+const Body = () => {
+const appRouter =createBrowserRouter([  //all routes
+  {
+    path:"/",
+    element: <Login />,
+  },
+  {
+    path:"/browse",
+    element: <Browse />,
+  },
+]);
+
+  return (
+    <div>
+      <RouterProvider router={appRouter}/>  //provide the routes
+    </div>
+  )
+}
+
+export default Body;
